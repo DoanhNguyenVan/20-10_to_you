@@ -35,9 +35,9 @@ let W = 0, H = 0, dpr = 1;
 let fallingParticles = [];
 
 const loveMessages = [
-  "Love you", "Tớ thương cậu", "Thương cậu nhiều", 
-  "My favorite person", "Forever Love", "My Love", 
-  "Yêu thương", "Bình yên bên cậu", "Nhớ cậu"
+  "Love you", "Iu Thúi", "Iu cậu", 
+  "My Love", "ăng nhăng nhăng", "My Love", 
+  "Iu Iu", "Hachimi", "Happy 20/10"
 ];
 
 // Định nghĩa duy nhất 1 tông màu hồng tình yêu rực rỡ
