@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07050b">
+<title>Only You ♡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Nhạc nền kết nối với file sound.mp3 -->
+<audio id="bgMusic" src="sound.mp3" loop preload="auto"></audio>
+
+<canvas id="sky"></canvas>
+<div class="vignette"></div>
+<div class="noise"></div>
+
+<main>
+  <!-- Màn mở đầu Gate: Bức thư phong bì -->
+  <section class="scene scene-gate active" id="gate">
+    <div class="gate-wrapper" id="openEnvelope">
+      <div class="envelope-glow"></div>
+      <div class="envelope">
+        <div class="envelope-heart">♥</div>
+      </div>
+    </div>
+    <p class="gate-hint">CHẠM ĐỂ MỞ BỨC THƯ</p>
+  </section>
+
+  <!-- Màn câu đố mở khóa trái tim -->
+  <section class="scene scene-quiz" id="quiz">
+    <div class="quiz-glow" id="quizGlow"></div>
+
+    <!-- SVG Padlock hình trái tim -->
+    <div class="lock-wrap" id="lockWrap" aria-hidden="true">
+      <svg class="lock-svg" id="lockSvg" viewBox="0 0 120 148" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Thân tim: đỏ 3D -->
+          <linearGradient id="heartBodyGrad" x1="0" y1="0" x2="0.6" y2="1" gradientUnits="objectBoundingBox">
+            <stop offset="0"   stop-color="#ff6b6b"/>
+            <stop offset="0.45" stop-color="#e01030"/>
+            <stop offset="1"   stop-color="#96001e"/>
+          </linearGradient>
+          <!-- Viền tim -->
+          <linearGradient id="heartStrokeGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ff9999"/>
+            <stop offset="1" stop-color="#c0002a"/>
+          </linearGradient>
+          <!-- Cung ổ khóa: vàng gold -->
+          <linearGradient id="shackleGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0"   stop-color="#ffe566"/>
+            <stop offset="0.4" stop-color="#f5b800"/>
+            <stop offset="1"   stop-color="#b87800"/>
+          </linearGradient>
+          <!-- Bóng sáng cung: vàng nhạt -->
+          <linearGradient id="shackleShineGrad" x1="0" y1="0" x2="1" y2="0.5">
+            <stop offset="0" stop-color="#fff8a0" stop-opacity="0.7"/>
+            <stop offset="1" stop-color="#fff8a0" stop-opacity="0"/>
+          </linearGradient>
+          <filter id="lockGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="shackleGlow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- ===== CUNG Ổ KHÓA (SHACKLE) - VÀNG GOLD ===== -->
+        <g class="lock-shackle" id="lockShackle">
+          <!-- Thân cung dày -->
+          <path d="M 36 54 L 36 26 Q 36 6 60 6 Q 84 6 84 26 L 84 54"
+                stroke="url(#shackleGrad)" stroke-width="14"
+                stroke-linecap="round" fill="none"
+                filter="url(#shackleGlow)"/>
+          <!-- Highlight bóng sáng trên cung -->
+          <path d="M 39 54 L 39 27 Q 39 12 60 12 Q 78 12 80 26 L 80 54"
+                stroke="url(#shackleShineGrad)" stroke-width="4"
+                stroke-linecap="round" fill="none" opacity="0.8"/>
+        </g>
+
+        <!-- ===== THÂN Ổ KHÓA HÌNH TRÁI TIM ===== -->
+        <!-- Shadow bên dưới tim -->
+        <path d="M 60 133 C 55 128 8 102 8 70 C 8 50 23 43 38 43 C 49 43 57 50 60 56 C 63 50 71 43 82 43 C 97 43 112 50 112 70 C 112 102 65 128 60 133 Z"
+              fill="#5a0010" opacity="0.35" transform="translate(3,5)"/>
+        <!-- Thân tim chính -->
+        <path class="lock-body"
+              d="M 60 133 C 55 128 8 102 8 70 C 8 50 23 43 38 43 C 49 43 57 50 60 56 C 63 50 71 43 82 43 C 97 43 112 50 112 70 C 112 102 65 128 60 133 Z"
+              fill="url(#heartBodyGrad)" stroke="url(#heartStrokeGrad)" stroke-width="2.5"
+              filter="url(#lockGlow)"/>
+        <!-- Highlight 3D góc trên trái tim -->
+        <path d="M 24 62 Q 30 48 47 54 Q 40 72 37 84 Q 18 74 24 62 Z"
+              fill="white" opacity="0.14"/>
+        <!-- Rim sáng viền trên -->
+        <path d="M 38 44 Q 49 43.5 57 50" stroke="#ff9999" stroke-width="1.2" fill="none" opacity="0.5"/>
+        <path d="M 82 44 Q 71 43.5 63 50" stroke="#ff9999" stroke-width="1.2" fill="none" opacity="0.5"/>
+
+        <!-- ===== LỖ KHÓA ===== -->
+        <circle cx="60" cy="90" r="9" fill="#18000a" opacity="0.85"/>
+        <path d="M 55.5 90 L 55.5 107 Q 55.5 112 60 112 Q 64.5 112 64.5 107 L 64.5 90"
+              fill="#18000a" opacity="0.85"/>
+
+        <!-- ===== PHẦN HIỆN KHI MỞ ===== -->
+        <!-- Tim nhỏ trong lỗ khóa -->
+        <text class="lock-heart" x="60" y="97" text-anchor="middle"
+              font-size="13" fill="#ff4d78" opacity="0">♥</text>
+
+        <!-- Sparkles 4 góc -->
+        <g class="lock-sparkles" opacity="0">
+          <text x="2"   y="38"  font-size="14" fill="#f6d8a0">✦</text>
+          <text x="103" y="33" font-size="11" fill="#ff9bb5">✦</text>
+          <text x="0"   y="90" font-size="9"  fill="#ff4d78">✦</text>
+          <text x="108" y="95" font-size="12" fill="#f6d8a0">✦</text>
+          <text x="50"  y="145" font-size="10" fill="#ff9bb5">✦</text>
+        </g>
+      </svg>
+
+      <!-- Ripple ring khi mở -->
+      <div class="lock-ripple" id="lockRipple"></div>
+    </div>
+
+    <p class="quiz-kicker">A LITTLE SECRET FOR YOU</p>
+    <h1 class="quiz-title">Mở khóa<br><em>trái tim tớ</em></h1>
+    <p class="quiz-question">Đố cậu biết ngày sinh của một cô công chúa xinh nhất thế giới là gì?</p>
+    <p class="quiz-hint">Viết liền nhé, ví dụ: 20102026</p>
+    <form class="quiz-form" id="birthdayForm" autocomplete="off">
+      <input id="birthdayAnswer" class="quiz-input" type="text" inputmode="numeric" maxlength="8" placeholder="DDMMYYYY" aria-label="Ngày sinh của công chúa" required>
+      <button class="primary-btn quiz-submit" type="submit"><span>Mở khóa trái tim</span><b>♡</b></button>
+    </form>
+    <p class="quiz-feedback" id="quizFeedback" aria-live="polite">Chỉ người biết câu trả lời mới mở được món quà này ♥</p>
+  </section>
+
+  <!-- Trang Intro: Trái tim ghép từ nhiều trái tim nhỏ -->
+  <section class="scene scene-intro" id="intro">
+    <div class="topline"><span class="line"></span><span>JUST FOR YOU</span><span class="line"></span></div>
+    
+    <!-- Trái tim lớn chứa ảnh: đặt ảnh tại photos/myphoto.jpg -->
+    <div class="photo-heart-wrap">
+      <div class="photo-heart-glow"></div>
+      <svg class="photo-heart" viewBox="0 0 200 180" role="img" aria-label="Ảnh của cậu trong trái tim">
+        <defs>
+          <clipPath id="photoHeartClip">
+            <path d="M100 164 C83 148 17 101 17 55 C17 9 73 4 100 43 C127 4 183 9 183 55 C183 101 117 148 100 164Z"/>
+          </clipPath>
+          <linearGradient id="photoHeartStroke" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#ffd6e0"/>
+            <stop offset=".5" stop-color="#ff4d78"/>
+            <stop offset="1" stop-color="#f6d8a0"/>
+          </linearGradient>
+          <linearGradient id="photoHeartBack" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#5a1534"/>
+            <stop offset="1" stop-color="#1c0a18"/>
+          </linearGradient>
+          <radialGradient id="photoHeartShade" cx=".5" cy=".42" r=".62">
+            <stop offset=".62" stop-color="#ff4d78" stop-opacity="0"/>
+            <stop offset="1" stop-color="#ff2a62" stop-opacity=".38"/>
+          </radialGradient>
+        </defs>
+        <path d="M100 164 C83 148 17 101 17 55 C17 9 73 4 100 43 C127 4 183 9 183 55 C183 101 117 148 100 164Z" fill="url(#photoHeartBack)"/>
+        <image href="photos/myphoto.jpg" x="14" y="12" width="172" height="156" preserveAspectRatio="xMidYMin slice" clip-path="url(#photoHeartClip)"/>
+        <path d="M100 164 C83 148 17 101 17 55 C17 9 73 4 100 43 C127 4 183 9 183 55 C183 101 117 148 100 164Z" fill="url(#photoHeartShade)"/>
+        <path d="M100 164 C83 148 17 101 17 55 C17 9 73 4 100 43 C127 4 183 9 183 55 C183 101 117 148 100 164Z" fill="none" stroke="url(#photoHeartStroke)" stroke-width="3" stroke-linejoin="round"/>
+      </svg>
+      <div class="orbit orbit-one"></div>
+      <div class="orbit orbit-two"></div>
+      <span class="orbit-heart oh-1">♡</span>
+      <span class="orbit-heart oh-2">♥</span>
+      <span class="orbit-heart oh-3">✦</span>
+    </div>
+
+    <p class="small-caption">I HAVE SOMETHING FOR YOU</p>
+    <h1>A little <em>piece</em><br>of my heart.</h1>
+    <p class="intro-copy">Có một điều tớ muốn dành riêng cho cậu.</p>
+    <button class="primary-btn" id="openGift"><span>Khám phá món quà</span><b>↗</b></button>
+    <div class="scroll-hint"><span></span> MADE WITH LOVE</div>
+  </section>
+
+  <!-- Trang Fireworks -->
+  <section class="scene scene-fireworks" id="fireworks">
+    <div class="scene-label">FOR THE ONE I CHOOSE</div>
+    <div class="firework-copy"><p class="gold-kicker">IN A WORLD FULL OF PEOPLE</p><h2>My heart<br><em>found you.</em></h2></div>
+    <div class="light-beam"></div>
+    <button class="next-btn" id="toHeart">Tiếp tục <span>↓</span></button>
+  </section>
+
+  <!-- Trang Heart -->
+  <section class="scene scene-heart" id="heart">
+    <div class="scene-label">YOU FEEL LIKE HOME</div>
+    <div class="heart-universe">
+      <div class="heart-aura"></div><div class="heart-ring ring-a"></div><div class="heart-ring ring-b"></div>
+      <svg class="heart-svg" viewBox="0 0 200 180" aria-label="Trái tim phát sáng">
+        <defs><linearGradient id="heartGradient" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb1c3"/><stop offset=".45" stop-color="#ff3868"/><stop offset="1" stop-color="#b80045"/></linearGradient><filter id="heartGlow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <path class="heart-path" d="M100 164 C83 148 17 101 17 55 C17 9 73 4 100 43 C127 4 183 9 183 55 C183 101 117 148 100 164Z" fill="url(#heartGradient)" filter="url(#heartGlow)"/>
+      </svg>
+      <span class="orbit-heart oh1">♡</span><span class="orbit-heart oh2">♥</span><span class="orbit-heart oh3">✦</span><span class="orbit-heart oh4">♡</span>
+    </div>
+    <h2 class="heart-title">Out of everyone,<br><em>it's still you.</em></h2>
+    <p class="soft-copy">Giữa rất nhiều người trên thế giới,<br>tớ vẫn vui vì đã gặp được cậu.</p>
+    <button class="next-btn" id="toLetter">Có một điều tớ muốn nói <span>↓</span></button>
+  </section>
+
+  <!-- Trang Bức thư (Nền Glassmorphism xuyên thấu) -->
+  <section class="scene scene-letter" id="letter">
+    <div class="scene-label">A LETTER FROM MY HEART</div>
+    <article class="letter">
+      <div class="letter-top"><span>♡</span><span>01 — FOREVER IN PROGRESS</span></div>
+      <p class="letter-kicker">MY DEAREST</p>
+      <h2>Gửi <em id="loverName">cậu</em>,</h2>
+      <div class="type-area" id="typedMessage"></div>
+      <div class="letter-sign"><span>With all my heart,</span><strong id="yourName">Dawn</strong><b>♥</b></div>
+    </article>
+    <button class="primary-btn" id="toMemories"><span>Có điều tớ muốn gửi cậu</span><b>↗</b></button>
+  </section>
+
+  <!-- Tấm thiệp tình yêu -->
+  <section class="scene scene-card" id="card">
+    <div class="scene-label">A LITTLE SOMETHING FOR YOU</div>
+
+    <!-- Con dấu LOVE MAIL -->
+    <div class="card-stamp" aria-hidden="true">
+      <svg viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="40" stroke="#ff4d78" stroke-width="1.5" stroke-dasharray="3.5 2.5"/>
+        <circle cx="45" cy="45" r="32" stroke="#ff4d78" stroke-width="0.8" stroke-dasharray="2 3" opacity="0.5"/>
+        <defs>
+          <path id="arcTop" d="M 10 45 a 35 35 0 0 1 70 0"/>
+          <path id="arcBot" d="M 18 52 a 28 28 0 0 0 54 0"/>
+        </defs>
+        <text font-size="7.8" fill="#ff9bb5" letter-spacing="3" font-family="DM Sans, sans-serif" font-weight="500">
+          <textPath href="#arcTop">LOVE MAIL · LOVE MAIL ·</textPath>
+        </text>
+        <text font-size="7" fill="#ff7aa0" letter-spacing="2.5" font-family="DM Sans, sans-serif">
+          <textPath href="#arcBot" startOffset="8%">♥ ♡ ♥ ♡ ♥ ♡ ♥</textPath>
+        </text>
+        <text x="45" y="50" text-anchor="middle" font-size="22" fill="#ff4d78">&#x2665;</text>
+      </svg>
+    </div>
+
+    <!-- Tấm thiệp chính -->
+    <div class="love-card">
+
+      <!-- Tiêu đề kiểu chữ tay -->
+      <div class="card-title-wrap">
+        <p class="card-subtitle">a letter</p>
+        <h2 class="card-heading">for <em>Em bé</em></h2>
+      </div>
+
+      <!-- Ảnh Polaroid nghiêng -->
+      <div class="card-polaroid">
+        <img src="photos/photo.jpg" alt="Kỷ niệm của chúng mình" loading="lazy">
+        <span class="polaroid-caption">always you ♥</span>
+      </div>
+
+      <!-- From -->
+      <div class="card-from">
+        <span class="card-from-label">From:</span>
+        <p class="card-from-name">someone who thinks of you<br>every single day.</p>
+        <div class="card-dotline"></div>
+      </div>
+
+      <!-- Nội dung thiệp -->
+      <div class="card-body">
+        <p>Có những ngày tớ không nói gì nhiều, nhưng trong lòng vẫn đang nghĩ đến cậu. Cậu là người mà tớ muốn kể đầu tiên khi có chuyện vui, và cũng là người tớ muốn ở cạnh nhất khi mệt mỏi.</p>
+        <p>Tớ không biết có bao nhiêu lần tim tớ đã bỏ lỡ một nhịp vì cậu — nhưng tớ biết rằng, mỗi lần như thế, tớ lại thêm chắc chắn rằng cậu là điều tớ trân trọng nhất.♥</p>
+      </div>
+
+      <!-- Trái tim trang trí -->
+      <span class="card-heart ch-1" aria-hidden="true">♥</span>
+      <span class="card-heart ch-2" aria-hidden="true">♥</span>
+      <span class="card-heart ch-3" aria-hidden="true">♡</span>
+    </div>
+
+    <button class="next-btn" id="toFilmFromCard">Tiếp tục <span>↓</span></button>
+  </section>
+
+  <!-- Thước phim những khoảnh khắc xinh đẹp của cậu -->
+  <section class="scene scene-film" id="film">
+    <div class="scene-label">A LITTLE FILM ABOUT YOU</div>
+    <p class="gold-kicker">PLEASE REMEMBER THIS</p>
+    <h2 class="film-title">Cậu luôn <em>xinh đẹp</em><br>theo cách của riêng cậu.</h2>
+    <p class="film-copy">"Dù có make up hay mặt mộc, dù là ngày thường hay những dịp đặc biệt…<br>cậu vẫn luôn là cậu — đáng yêu và đặc biệt theo cách chẳng ai thay thế được."<br><strong>Hãy luôn nhớ điều đó nhé.♥</strong></p>
+    <div class="filmstrip-shell" aria-label="Những bức ảnh như một cuộn phim">
+      <div class="filmstrip-track">
+        <figure class="film-frame"><img src="photos/photo1.jpg" alt="Khoảnh khắc xinh đẹp của cậu"><figcaption>just being you ♡</figcaption></figure>
+        <figure class="film-frame"><img src="photos/photo2.jpg" alt="Một nụ cười của cậu"><figcaption>Without any makeup on</figcaption></figure>
+        <figure class="film-frame"><img src="photos/photo3.jpg" alt="Cậu trong một ngày đặc biệt"><figcaption>When you shine bright ✦</figcaption></figure>
+        <figure class="film-frame"><img src="photos/photo4.jpg" alt="Cậu trong ngày thường"><figcaption>a special days ✦</figcaption></figure>
+        <figure class="film-frame"><img src="photos/photo5.jpg" alt="Một kỷ niệm đáng nhớ"><figcaption>a memory to keep</figcaption></figure>
+        <figure class="film-frame"><img src="photos/photo6.jpg" alt="Một khoảnh khắc đáng yêu"><figcaption>always, you ♥</figcaption></figure>
+        <figure class="film-frame" aria-hidden="true"><img src="photos/photo1.jpg" alt=""><figcaption>just being you ♡</figcaption></figure>
+        <figure class="film-frame" aria-hidden="true"><img src="photos/photo2.jpg" alt=""><figcaption>your lovely smile</figcaption></figure>
+        <figure class="film-frame" aria-hidden="true"><img src="photos/photo3.jpg" alt=""><figcaption>your special days ✦</figcaption></figure>
+      </div>
+    </div>
+    <p class="film-note">A thousand pictures, and still not enough to capture your magic.</p>
+    <button class="next-btn" id="toCollage">Còn một điều nữa <span>↓</span></button>
+  </section>
+
+  <!-- Cảnh mảnh ghép: 20 ảnh chụp chung (photos/cp1.jpg … cp20.jpg) ghép thành trái tim -->
+  <section class="scene scene-collage" id="collage">
+    <div class="scene-label">HAPPY 20/10</div>
+    <h2 class="collage-title">Chúc cậu một <em>20/10</em><br>thật vui vẻ</h2>
+
+    <div class="mosaic" aria-label="Những mảnh ghép tạo thành trái tim">
+      <!-- --i: thứ tự bay vào | --dx/--dy/--r/--s: vị trí, độ nghiêng, độ thu nhỏ lúc bắt đầu -->
+      <figure class="tile t-A tile-big" style="--i:19; --dx:-212%; --dy:-236%; --r:-18deg; --s:0.50"><img src="photos/cp1.jpg" alt="Ảnh chung 1"></figure>
+      <figure class="tile t-B tile-big" style="--i:18; --dx:197%; --dy:-238%; --r:8deg; --s:0.42"><img src="photos/cp2.jpg" alt="Ảnh chung 2"></figure>
+      <figure class="tile t-C tile-big" style="--i:7; --dx:71%; --dy:116%; --r:11deg; --s:0.43"><img src="photos/cp10.jpg" alt="Ảnh chung 10"></figure>
+      <figure class="tile t-D tile-big" style="--i:0; --dx:69%; --dy:226%; --r:-16deg; --s:0.51"><img src="photos/cp19.jpg" alt="Ảnh chung 19"></figure>
+      <figure class="tile t-s1" style="--i:16; --dx:-628%; --dy:-406%; --r:-15deg; --s:0.46"><img src="photos/cp3.jpg" alt="Ảnh chung 3"></figure>
+      <figure class="tile t-s2" style="--i:14; --dx:-219%; --dy:-420%; --r:-17deg; --s:0.58"><img src="photos/cp4.jpg" alt="Ảnh chung 4"></figure>
+      <figure class="tile t-s3" style="--i:15; --dx:238%; --dy:-422%; --r:18deg; --s:0.43"><img src="photos/cp5.jpg" alt="Ảnh chung 5"></figure>
+      <figure class="tile t-s4" style="--i:17; --dx:612%; --dy:-409%; --r:9deg; --s:0.43"><img src="photos/cp6.jpg" alt="Ảnh chung 6"></figure>
+      <figure class="tile t-s5" style="--i:13; --dx:-607%; --dy:-287%; --r:-11deg; --s:0.58"><img src="photos/cp7.jpg" alt="Ảnh chung 7"></figure>
+      <figure class="tile t-s6" style="--i:11; --dx:-498%; --dy:-294%; --r:-10deg; --s:0.43"><img src="photos/cp8.jpg" alt="Ảnh chung 8"></figure>
+      <figure class="tile t-s7" style="--i:8; --dx:-368%; --dy:-276%; --r:-12deg; --s:0.56"><img src="photos/cp9.jpg" alt="Ảnh chung 9"></figure>
+      <figure class="tile t-s8" style="--i:9; --dx:364%; --dy:-280%; --r:13deg; --s:0.49"><img src="photos/cp11.jpg" alt="Ảnh chung 11"></figure>
+      <figure class="tile t-s9" style="--i:10; --dx:493%; --dy:-278%; --r:18deg; --s:0.43"><img src="photos/cp12.jpg" alt="Ảnh chung 12"></figure>
+      <figure class="tile t-s10" style="--i:12; --dx:628%; --dy:-283%; --r:8deg; --s:0.51"><img src="photos/cp13.jpg" alt="Ảnh chung 13"></figure>
+      <figure class="tile t-s11" style="--i:6; --dx:-497%; --dy:280%; --r:-16deg; --s:0.59"><img src="photos/cp14.jpg" alt="Ảnh chung 14"></figure>
+      <figure class="tile t-s12" style="--i:4; --dx:-347%; --dy:290%; --r:-17deg; --s:0.44"><img src="photos/cp15.jpg" alt="Ảnh chung 15"></figure>
+      <figure class="tile t-s13" style="--i:3; --dx:355%; --dy:291%; --r:10deg; --s:0.59"><img src="photos/cp16.jpg" alt="Ảnh chung 16"></figure>
+      <figure class="tile t-s14" style="--i:5; --dx:492%; --dy:297%; --r:19deg; --s:0.57"><img src="photos/cp17.jpg" alt="Ảnh chung 17"></figure>
+      <figure class="tile t-s15" style="--i:2; --dx:-357%; --dy:403%; --r:-9deg; --s:0.45"><img src="photos/cp18.jpg" alt="Ảnh chung 18"></figure>
+      <figure class="tile t-s16" style="--i:1; --dx:366%; --dy:403%; --r:10deg; --s:0.48"><img src="photos/cp20.jpg" alt="Ảnh chung 20"></figure>
+      <span class="mosaic-spark ms-1" aria-hidden="true">♡</span>
+      <span class="mosaic-spark ms-2" aria-hidden="true">✦</span>
+      <span class="mosaic-spark ms-3" aria-hidden="true">♥</span>
+      <span class="mosaic-spark ms-4" aria-hidden="true">✦</span>
+    </div>
+
+    <p class="collage-copy">Mong rằng tớ sẽ là <em>mảnh ghép</em> khiến cậu trở nên hoàn hảo hơn.<br>Hãy cứ xinh đẹp và cute nhé ♥</p>
+    <button class="next-btn" id="toBouquet">Món quà cuối cùng <span>↓</span></button>
+  </section>
+
+    <!-- Cảnh cuối: bó hoa tulip đung đưa -->
+  <section class="scene scene-bouquet" id="bouquet">
+    <div class="bq-petals" id="bqPetals" aria-hidden="true"></div>
+    <div class="scene-label">A BOUQUET JUST FOR YOU</div>
+
+    <div class="bq-stage">
+      <div class="bq-glow"></div>
+      <div class="bq-flower" id="bqFlower">
+        <div class="bq-tap" id="bqTap">
+          <div class="bq-rise">
+            <!-- JS cắt ảnh thành nhiều lát ngang để hoa uốn lượn theo gió -->
+            <div class="bq-strips" id="bqStrips" role="img" aria-label="Bó hoa tulip"></div>
+            <div class="bq-follow" data-t="0.17"><div class="bq-follow-in"><span class="bq-tag-text">For you</span></div></div>
+            <div class="bq-follow" data-t="0.81"><div class="bq-follow-in"><span class="bq-card-text">20/10 ♥</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="bq-sparks" aria-hidden="true">
+        <span class="bq-spark bs-1">✦</span><span class="bq-spark bs-2">♡</span><span class="bq-spark bs-3">✦</span>
+        <span class="bq-spark bs-4">♥</span><span class="bq-spark bs-5">✦</span><span class="bq-spark bs-6">♡</span>
+      </div>
+    </div>
+
+    <p class="gold-kicker bq-reveal" style="--d:1.7s">ONE LAST THING</p>
+    <h2 class="bq-title bq-reveal" style="--d:1.9s">Tặng em bé của tớ<br><em>bó hoa này</em> ♥</h2>
+    <div class="bq-copy">
+      <p class="bq-reveal" style="--d:2.3s">Hoa rồi sẽ tàn, nhưng tớ muốn bó hoa này thay tớ nói lời cảm ơn — vì cậu đã luôn ở đây, vì những nụ cười thật tươi, và cả những lúc cậu mệt mà vẫn cố gắng.</p>
+      <p class="bq-reveal" style="--d:2.8s">Mong mỗi ngày của cậu đều dịu dàng như những cánh hoa này. Còn nếu có ngày nào chưa được như thế, thì đã có tớ ở bên cạnh.</p>
+      <p class="bq-wish bq-reveal" style="--d:3.4s">Chúc em bé của tớ luôn <em>xinh đẹp</em>, luôn được yêu thương, và luôn nhớ rằng cậu là điều đẹp nhất trong thế giới của tớ.</p>
+    </div>
+    <p class="bq-sign bq-reveal" style="--d:4s">Yêu cậu thật nhiều — Dawn ♥</p>
+    <div class="bq-end bq-reveal" style="--d:4.4s"><button class="text-btn" id="restart">↺ &nbsp; Xem lại từ đầu</button></div>
+  </section>
+
+  <!-- Trang Kỷ niệm -->
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
